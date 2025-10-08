@@ -9,37 +9,30 @@ jobs:
   ci-cd-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: 🔹 Checkout кода
         uses: actions/checkout@v4
 
-      - name: Установка Python
+      - name: 🐍 Установка Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.13.5'
+          python-version: '3.11'
 
-      - name: Установка зависимостей
+      - name: 📦 Установка зависимостей
         run: |
           pip install -r requirements.txt
 
-      - name: Запуск тестов
+      - name: 🧪 Запуск тестов
         run: |
           python -m pytest tests/ -v --tb=short
 
-      - name: Деплой на продуктовый сервер
+      - name: 🚀 Деплой на продуктовый сервер (через SSH)
         if: success()
         uses: appleboy/ssh-action@v1.0.2
         with:
-          host: 192.168.0.116
-          username: vboxuser
-          key: |
-            -----BEGIN OPENSSH PRIVATE KEY-----
-            b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW
-            QyNTUxOQAAACDRnXpLiLZEC5GGRiDSqBWpgjNqjgMMKYa0a88COHiAyQAAAJi1aYaWtWmG
-            lgAAAAtzc2gtZWQyNTUxOQAAACDRnXpLiLZEC5GGRiDSqBWpgjNqjgMMKYa0a88COHiAyQ
-            AAAEBfxODailqMSPJvB2N4Vg7HfBS0Ho/AYdVrMEbdlZxSMNGdekuItkQLkYZGINKoFamC
-            M2qOAwwphrRrzwI4eIDJAAAAEGdpdGxhYi1jaS1kZXBsb3kBAgMEBQ==
-            -----END OPENSSH PRIVATE KEY-----
+          host: ${{ secrets.PROD_HOST }}
+          username: ${{ secrets.PROD_USER }}
+          key: ${{ secrets.PROD_SSH_KEY }}
           script: |
-            cd ~/myapp
+            cd /opt/personal-finance
             git pull origin main
-            echo "Деплой завершён: $(date)" >> deploy.log
+            echo "✅ Деплой завершён: $(date)" >> deploy.log
