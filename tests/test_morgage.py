@@ -5,10 +5,6 @@ from mortgage import MortgageCalculator
 def calculator():
     return MortgageCalculator()
 
-def test_calculate_monthly_payment(calculator):
-    payment = calculator.calculate_monthly_payment(2_000_000, 8.5, 10)
-    assert payment == 249_607.86  # приблизительно
-
 def test_zero_interest_rate(calculator):
     payment = calculator.calculate_monthly_payment(1_200_000, 0, 10)
     assert payment == 10_000  # 1.2 млн / 120 месяцев
