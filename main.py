@@ -24,9 +24,9 @@ def main():
                 print(f"Переплата: {overpay:,.2f} ₽")
 
             except ValueError as e:
-                print(f"❌ Ошибка ввода: {e}")
+                print(f"Ошибка ввода: {e}")
             except Exception as e:
-                print(f"❌ Непредвиденная ошибка: {e}")
+                print(f"Непредвиденная ошибка: {e}")
 
         elif choice == "2":
             print("До свидания!")
@@ -34,5 +34,6 @@ def main():
         else:
             print("Неверный выбор. Попробуйте снова.")
 
-if name == "main":
+
+if __name__ == "__main__":
     main()
