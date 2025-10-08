@@ -1,0 +1,38 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  ci-cd-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Установка Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13.5'
+
+      - name: Установка зависимостей
+        run: |
+          pip install -r requirements.txt
+
+      - name: Запуск тестов
+        run: |
+          python -m pytest tests/ -v --tb=short
+
+      - name: Деплой на продуктовый сервер
+        if: success()
+        uses: appleboy/ssh-action@v1.0.2
+        with:
+          host: 192.168.0.116
+          username: vboxuser
+          key: b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZWQyNTUxOQAAACDRnXpLiLZEC5GGRiDSqBWpgjNqjgMMKYa0a88COHiAyQAAAJi1aYaWtWmGlgAAAAtzc2gtZWQyNTUxOQAAACDRnXpLiLZEC5GGRiDSqBWpgjNqjgMMKYa0a88COHiAyQAAAEBfxODailqMSPJvB2N4Vg7HfBS0HoAYdVrMEbdlZxSMNGdekuItkQLkYZGINKoFamCM2qOAwwphrRrzwI4eIDJAAAAEGdpdGxhYi1jaS1kZXBsb3kBAgMEBQ==
+          script: |
+            cd ~/myapp
+            git pull origin main
+            echo "Деплой завершён: $(date)" >> deploy.log
