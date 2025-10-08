@@ -31,7 +31,14 @@ jobs:
         with:
           host: 192.168.0.116
           username: vboxuser
-          key: b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZWQyNTUxOQAAACDRnXpLiLZEC5GGRiDSqBWpgjNqjgMMKYa0a88COHiAyQAAAJi1aYaWtWmGlgAAAAtzc2gtZWQyNTUxOQAAACDRnXpLiLZEC5GGRiDSqBWpgjNqjgMMKYa0a88COHiAyQAAAEBfxODailqMSPJvB2N4Vg7HfBS0HoAYdVrMEbdlZxSMNGdekuItkQLkYZGINKoFamCM2qOAwwphrRrzwI4eIDJAAAAEGdpdGxhYi1jaS1kZXBsb3kBAgMEBQ==
+          key: |
+          -----BEGIN OPENSSH PRIVATE KEY-----
+b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW
+QyNTUxOQAAACDRnXpLiLZEC5GGRiDSqBWpgjNqjgMMKYa0a88COHiAyQAAAJi1aYaWtWmG
+lgAAAAtzc2gtZWQyNTUxOQAAACDRnXpLiLZEC5GGRiDSqBWpgjNqjgMMKYa0a88COHiAyQ
+AAAEBfxODailqMSPJvB2N4Vg7HfBS0Ho/AYdVrMEbdlZxSMNGdekuItkQLkYZGINKoFamC
+M2qOAwwphrRrzwI4eIDJAAAAEGdpdGxhYi1jaS1kZXBsb3kBAgMEBQ==
+-----END OPENSSH PRIVATE KEY-----
           script: |
             cd ~/myapp
             git pull origin main
