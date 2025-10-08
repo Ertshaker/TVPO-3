@@ -31,3 +31,4 @@ def test_overpayment(calculator):
     assert over == 200_000  # 20к*60 = 1.2 млн → переплата 200к
 
 ## ВСЕМ ПРИВЕТ
+##ddad
