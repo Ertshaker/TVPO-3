@@ -34,10 +34,13 @@ jobs:
          uses: actions/checkout@v3
          
        - name: Set up SSH
-         uses: webfactory/ssh-agent@v0.8.1
+         uses: appleboy/ssh-action@v1.9.1
          with:
-           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-           
-       - name: Copy Files
-         run: |
-           rsync -avz --delete ./ vboxuser@192.168.0.116:/home/vboxuser/myapp
+           host: 192.168.0.116
+           username: vboxuser
+           key: ${{ secrets.SSH_PRIVATE_KEY }}
+           port: 22
+           script: |
+             cd /home/vboxuser/myapp
+             git pull origin main
+             
