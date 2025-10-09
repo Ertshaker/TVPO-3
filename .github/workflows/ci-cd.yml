@@ -6,33 +6,45 @@ on:
       - main
 
 jobs:
-  ci-cd-deploy:
+  test:
     runs-on: ubuntu-latest
     steps:
-      - name: 🔹 Checkout кода
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: 🐍 Установка Python
+      - name: Установка Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: '3.13.5'
 
-      - name: 📦 Установка зависимостей
+      - name: Установка зависимостей
         run: |
           pip install -r requirements.txt
 
-      - name: 🧪 Запуск тестов
+      - name: Запуск тестов
         run: |
           python -m pytest tests/ -v --tb=short
-
-      - name: 🚀 Деплой на продуктовый сервер (через SSH)
-        if: success()
-        uses: appleboy/ssh-action@v1.0.2
-        with:
-          host: ${{ secrets.PROD_HOST }}
-          username: ${{ secrets.PROD_USER }}
-          key: ${{ secrets.PROD_SSH_KEY }}
-          script: |
-            cd /opt/personal-finance
-            git pull origin main
-            echo "✅ Деплой завершён: $(date)" >> deploy.log
+          
+      - name: Работа с SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519 && chmod 600 ~/.ssh/id_ed25519
+      - name: Deploy
+        run: scp -o
+  deploy:
+     name: Deploy
+     needs: test
+     if: success()
+     runs-on: ubuntu-latest
+     steps:
+       - name: Checkout
+         uses: actions/checkout@v3
+         
+       - name: Set up SSH
+         uses: webfactory/ssh-agent@v0.8.1
+         with:
+           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+           
+       - name: Copy Files
+         run: |
+           rsync -avz --delete ./ vboxuser@192.168.0.116:/home/vboxuser/myapp
