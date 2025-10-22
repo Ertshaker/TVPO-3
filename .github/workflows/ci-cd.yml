@@ -33,16 +33,14 @@ jobs:
        - name: Checkout
          uses: actions/checkout@v3
          
-       - name: Set up SSH
-         uses: appleboy/ssh-action@v1.2.2
-         with:
-           host: ${{ secrets.PROD_HOST }}
-           username: ${{ secrets.PROD_USER }}
-           key: ${{ secrets.SSH_PRIVATE_KEY }}
-           port: 22
-           script: |
-             cd ~/myapp
+       - name: Deploy to production server
+         env:
+           USER: ${{ secrets.PROD_USER }}
+           HOST: ${{ secrets.PROD_HOST }}
+           DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+         run: |
+           ssh -i ~/.ssh/id_ed25519 $USER@$HOST << 'EOF'
+             set -e
+             cd $DEPLOY_PATH
              git pull origin main
-             python3 main.py
-
-             
+           EOF
