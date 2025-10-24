@@ -24,7 +24,7 @@ def test_invalid_years(calculator):
 def test_total_payout(calculator):
     payment = 50_000
     total = calculator.total_payout(payment, 5)
-    assert total == 3_000_000  # 50к * 12 * 5
+    assert total == 3_000_0000  # 50к * 12 * 5
 
 def test_overpayment(calculator):
     over = calculator.overpayment(1_000_000, 20_000, 5)
@@ -35,4 +35,5 @@ def test_overpayment(calculator):
 7
 8
 9
+dasdasdas
 '''
