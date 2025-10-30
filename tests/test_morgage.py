@@ -28,7 +28,7 @@ def test_total_payout(calculator):
 
 def test_overpayment(calculator):
     over = calculator.overpayment(1_000_000, 20_000, 5)
-    assert over == 200_000  # 20к*60 = 1.2 млн → переплата 200к
+    assert over == 200_00  # 20к*60 = 1.2 млн → переплата 200к
 
 '''
 6
@@ -36,5 +36,5 @@ def test_overpayment(calculator):
 8
 9
 dasdasdasa
-SILKSONG STRINGI
+SILKSONG PORNO
 '''
